@@ -263,6 +263,7 @@
      <string>Game</string>
     </property>
     <addaction name="actionScores"/>
+    <addaction name="actionNew_Game"/>
    </widget>
    <addaction name="menuGame"/>
   </widget>
@@ -270,6 +271,11 @@
   <action name="actionScores">
    <property name="text">
     <string>Scores</string>
+   </property>
+  </action>
+  <action name="actionNew_Game">
+   <property name="text">
+    <string>New Game</string>
    </property>
   </action>
  </widget>
