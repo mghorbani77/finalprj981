@@ -8,10 +8,8 @@
 #include <data.cpp>
 #include <graphicc.cpp>
 
-
 // Init.
 static xData data;
-
 
 // Reset window
 void Reset(Ui::MainWindow *ui){
@@ -24,6 +22,8 @@ void Reset(Ui::MainWindow *ui){
 
 // Window load
 void Load(Ui::MainWindow *ui) {
+    // To allow reset the board on 'New Game'
+    data = new xData;
 
     // Set Background image for source and destination buttons
     SetBackgroundImage("icons\\source.png", ui->btn_source, 0);
@@ -48,16 +48,19 @@ void Clicked(int btn_no, Ui::MainWindow *ui) {
     // Calculate score
     if (data.IsWinnerBoard(score))
     {
-
+        QMessageBox msgBox;
+        char msg[50];
+        sprintf(msg,"Hooray! %d", score);
+        msgBox.setText(msg);
+        msgBox.exec();
     }
 
-    QMessageBox msgBox;
-    char msg[50];
-    sprintf(msg,"Hooray! %d", score);
-    msgBox.setText(msg);
-    msgBox.exec();
+
 
 }
+
+
+// Board buttons
 
 void MainWindow::on_btn_0_clicked()
 {
@@ -122,4 +125,10 @@ void MainWindow::on_btn_14_clicked()
 void MainWindow::on_btn_15_clicked()
 {
     Clicked(15, ui);
+}
+
+// Menu items: New Game
+void MainWindow::on_actionNew_Game_triggered()
+{
+    Load(ui);
 }
