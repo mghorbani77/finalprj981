@@ -36,6 +36,7 @@ private slots:
     void on_btn_15_clicked();
 
     void on_actionNew_Game_triggered();
+    void on_actionScores_triggered();
 
 private:
 

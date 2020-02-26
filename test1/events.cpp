@@ -1,9 +1,16 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+
 #include "math.h"
+#include <iostream>
+#include <fstream>
+
+#include "scores.h"
+#include "ui_scores.h"
 
 #include <QApplication>
 #include <QMessageBox>
+#include <QListWidgetItem>
 
 #include <data.cpp>
 #include <graphicc.cpp>
@@ -33,6 +40,14 @@ void Load(Ui::MainWindow *ui) {
     Reset(ui);
 }
 
+// Save score to the file
+void SaveScore(int score) {
+    std::ofstream fs;
+    fs.open ("scores.txt", std::ios_base::app); // Open file for append
+    fs << "\n" << score;
+    fs.close();
+}
+
 // Click events and slots
 void Clicked(int btn_no, Ui::MainWindow *ui) {
 
@@ -53,15 +68,60 @@ void Clicked(int btn_no, Ui::MainWindow *ui) {
         sprintf(msg,"Hooray! %d", score);
         msgBox.setText(msg);
         msgBox.exec();
+
+        // Save the score
+        SaveScore(score);
     }
 
+}
 
+// Load scores from file
+void GetScores(int * scores, int & count) {
+    //initialie the array size
+    std::ifstream is("scores.txt");
+    int x;
+    count = 0;
+    // check that array is not already full
+    while (count < 30 && is >> x) // max 30 lines
+    // and read integer from file
+    scores[count++] = x;
+    //close the file
+    is.close();
+}
 
+// Menu items: New Game
+void MainWindow::on_actionNew_Game_triggered()
+{
+    Load(ui);
+}
+
+// Parse score to display
+void ParseScores(int * scores, int scores_count, QListWidget * list)
+{
+    for (int i = 0; i< scores_count; i++)
+    {
+        char * str ;
+        sprintf(str, "%d", scores[i]);
+        list->addItem(str);
+    }
+
+}
+
+// Menu items: Scores
+void MainWindow::on_actionScores_triggered()
+{
+    Scores scores;
+    scores.setModal(true);
+
+    int array_count = 0 ;
+    int scores_array [array_count];
+    GetScores(scores_array, array_count);
+    ParseScores(scores_array, array_count, scores.ui_scores->scoresList);
+    scores.exec();
 }
 
 
 // Board buttons
-
 void MainWindow::on_btn_0_clicked()
 {
     Clicked(0, ui);
@@ -125,10 +185,4 @@ void MainWindow::on_btn_14_clicked()
 void MainWindow::on_btn_15_clicked()
 {
     Clicked(15, ui);
-}
-
-// Menu items: New Game
-void MainWindow::on_actionNew_Game_triggered()
-{
-    Load(ui);
 }

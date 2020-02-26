@@ -21,13 +21,16 @@ SOURCES += \
     graphicc.cpp \
     main.cpp \
     mainwindow.cpp \
+    scores.cpp \
     segment.cpp
 
 HEADERS += \
-    mainwindow.h
+    mainwindow.h \
+    scores.h
 
 FORMS += \
-    mainwindow.ui
+    mainwindow.ui \
+    scores.ui
 
 TRANSLATIONS += \
     test1_en_US.ts
